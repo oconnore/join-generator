@@ -1,0 +1,36 @@
+{
+  "name": "join-generator",
+  "description": "An asynchronous utility for joining a number of threads of control",
+  "homepage": "http://github.com/oconnore/join-generator.git",
+  "version": "0.1.1",
+  "engines": {
+    "node": ">=0.10.22"
+  },
+  "main": "./generator.js",
+  "maintainers": [{
+    "name": "Eric O'Connor",
+    "email": "eric@bocoup.com",
+    "web": "http://bocoup.com"
+  }],
+  "scripts": {
+    "test": "node --harmony gulpfile.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/oconnore/join-generator.git"
+  },
+  "licenses": [{
+    "type": "MIT",
+    "url": "./LICENSE"
+  }],
+  "dependencies": {
+    "harmony-enumerables": ">=0.1.0"
+  },
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-mocha": "*",
+    "mocha": "*",
+    "chai": "*",
+    "sinon": "*"
+  }
+}
