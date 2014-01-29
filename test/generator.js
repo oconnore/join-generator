@@ -2,57 +2,57 @@ var chai = require('chai');
 var assert = chai.assert;
 var sinon = require('sinon');
 
-var generator = require('../generator');
+var Generator = require('../generator').Generator;
 
 suite('Generator tests', function() {
   var clock;
 
-  test('Create a generator', function(done) {
-    var g = generator(done);
-    g()();
+  test('Create a new Generator', function(done) {
+    var g = new Generator(done);
+    g.release();
   });
 
-  test('Throw an error in a generator', function(done) {
+  test('Throw an error in a new Generator', function(done) {
     var called = false;
     var finish = function() {
       assert.ok(called);
       done();
     };
-    var g = generator(function(err) {
+    var g = new Generator(function(err) {
       assert.ok(err); 
       called = true;
       finish();
     });
-    var a = g();
-    var b = g();
+    var a = g.gate();
+    var b = g.gate();
     b(new Error('test'));
   });
 
   test('Remove duplicates', function() {
     var count = 0;
-    var g = generator(function(err) {
+    var g = new Generator(function(err) {
       count++;
     });
-    var a = g();
+    var a = g.gate();
     a();
     assert.equal(count, 1);
     a();
     assert.equal(count, 1);
   });
 
-  test('Use the generator', function(done) {
+  test('Use the new Generator', function(done) {
     this.slow(200);
     var alldone = null, count = 0;
     var finish = function() {
       assert.ok(alldone);
       done();
     }
-    var gen = generator(function(err) {
+    var gen = new Generator(function(err) {
       assert.ok(!err);
       alldone = true;
       finish();
     });
-    var loop = gen();
+    var loop = gen.gate();
     assert.notOk(alldone);
     var dist = 10;
     var startTime = Date.now();
@@ -62,7 +62,7 @@ suite('Generator tests', function() {
           count++;
           cb();
         }, i * dist);
-      })(i, gen());
+      })(i, gen.gate());
     }
     assert.equal(count, 0);
     var fn = function(i) {
