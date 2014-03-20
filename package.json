@@ -2,7 +2,7 @@
   "name": "join-generator",
   "description": "An asynchronous utility for joining a number of threads of control",
   "homepage": "http://github.com/oconnore/join-generator.git",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "engines": {
     "node": ">=0.10.22"
   },
@@ -25,7 +25,8 @@
   }],
   "dependencies": {
     "harmony-enumerables": ">=0.1.0",
-    "es6-promise": "*"
+    "es6-promise": "*",
+    "setimmediate": "*"
   },
   "devDependencies": {
     "gulp": "*",

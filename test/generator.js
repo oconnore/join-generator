@@ -74,4 +74,29 @@ suite('Generator tests', function() {
     setTimeout(fn.bind(null, 1), 0);
     loop();
   });
+
+  test('Release on next tick', function(done) {
+    var resolved = false;
+    var g = new Generator(function(err) {
+      assert.ok(!err, 'error occurred');
+      resolved = true;
+    });
+    setTimeout(function() {
+      assert.ok(resolved, 'generator did not resolve');
+      done();
+    }, 1);
+  });
+
+  test('Do not release early', function(done) {
+    var resolved = false;
+    var g = new Generator(function(err) {
+      assert.ok(!err, 'error occurred');
+      resolved = true;
+    });
+    var block = g.gate();
+    setTimeout(function() {
+      assert.ok(!resolved, 'generator did resolve');
+      done();
+    }, 1);
+  });
 });

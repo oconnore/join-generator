@@ -39,6 +39,26 @@ suite('Promises tests', function() {
       });
     });
 
+    test('Unpopulated Joiner resolves', function(done) {
+      var join = new Joiner();
+      join.then(function() {
+        done();
+      });
+    });
+
+    test('Populated Joiner does not resolve', function(done) {
+      var resolved = false;
+      var join = new Joiner();
+      join.add(new Promise(function() {}));
+      join.then(function(value) {
+        resolved = true;
+      });
+      setTimeout(function() {
+        assert.ok(!resolved, 'promise should not resolve');
+        done();
+      }, 5);
+    });
+
     test('Join multiple', function(done) {
       this.slow(200);
       var activated = [];

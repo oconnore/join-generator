@@ -3,17 +3,27 @@ var eSet = he.Set;
 var eMap = he.Map;
 var Promise = require('es6-promise').Promise;
 
+require('setimmediate');
+
 var priv = new WeakMap();
 
 /* =============================================================
                          Join Generator
 ============================================================= */
 
+function expire() {
+  var p = priv.get(this);
+  if (!p.finished && p.gateset.size === 0) {
+    this.release();
+  }
+}
+
 function Generator(done) {
   priv.set(this, {
     finished: false,
     donecb: done,
-    gateset: new eSet()
+    gateset: new eSet(),
+    expire: setImmediate(expire.bind(this))
   });
 }
 
@@ -21,6 +31,7 @@ Generator.prototype = {
   release: function(err) {
     var p = priv.get(this);
     if (p && !p.finished) {
+      clearImmediate(p.expire);
       try {
         if (typeof p.donecb === 'function') {
           p.donecb(err);
