@@ -1,11 +1,12 @@
 var he = require('harmony-enumerables');
+var eWeakMap = he.WeakMap;
 var eSet = he.Set;
 var eMap = he.Map;
 var Promise = require('es6-promise').Promise;
 
 require('setimmediate');
 
-var priv = new WeakMap();
+var priv = new eWeakMap();
 
 /* =============================================================
                          Join Generator
